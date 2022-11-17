@@ -7,5 +7,3 @@ RUN pip install --no-cache-dir --upgrade pip \
 
 COPY model.pkl ./
 COPY main.py ./
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
