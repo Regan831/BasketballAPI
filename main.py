@@ -13,7 +13,7 @@ with open("./model.pkl", "rb") as f:
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+  return {"Hello": "Test"}
 
 
 @app.get("/items/{item_id}")
@@ -470,9 +470,7 @@ def get_todays_odds():
   odds_info.drop(['odd_name', 'correct_name'], inplace=True, axis=1)
   return odds_info.to_dict()
   
-@app.get("/get_model")
-def get_model():
-  return model
+
 
   # model_lrg = pickle.load(open("Users/ryanegan/Documents/model", 'rb'))
   # print(model_lrg)
