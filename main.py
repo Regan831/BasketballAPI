@@ -8,8 +8,8 @@ import sklearn
 
 app = FastAPI()
 
-with open("./model.pkl", "rb") as f:
-  model = pickle.load(f)
+# with open("./model.pkl", "rb") as f:
+#   model = pickle.load(f)
 
 @app.get("/")
 def read_root():
@@ -475,3 +475,78 @@ def get_todays_odds():
   # model_lrg = pickle.load(open("Users/ryanegan/Documents/model", 'rb'))
   # print(model_lrg)
   # return model_lrg
+# @app.get("/expectations")
+# def get_todays_expectations(odds: str, year = '2022-23'):
+#   game_info = pd.DataFrame.read_json(odds)
+#   return odds_info.to_dict()
+  # game_info = pd.read_csv("odds.csv")
+#   df_alt_names = get_alt_names()
+#   game_info['year'] = year
+#   
+#   game_info['exp_win_away'] = game_info.apply(lambda x: round(predict_game(x.away_team, x.home_team,"A", x.year, model="lrg"), 3) if x.N != 'N' else round(predict_game(x.away_team, x.home_team,"N", x.year, model="lrg"), 3), axis=1)
+#   game_info['exp_win_home'] = game_info.apply(lambda x: round(predict_game(x.home_team, x.away_team,"H", x.year, model="lrg"), 3) if x.N != 'N' else round(predict_game(x.home_team, x.away_team,"N", x.year, model="lrg"), 3), axis=1)
+#   
+#   game_info['exp_win_away_recent'] = game_info.apply(lambda x: round(predict_game(x.away_team, x.home_team,"A", x.year, model="lrg", recent_bool=True), 3) if x.N != 'N' else round(predict_game(x.away_team, x.home_team,"N", x.year, model="lrg", recent_bool=True), 3), axis=1)
+#   game_info['exp_win_home_recent'] = game_info.apply(lambda x: round(predict_game(x.home_team, x.away_team,"H", x.year, model="lrg", recent_bool=True), 3) if x.N != 'N' else round(predict_game(x.home_team, x.away_team,"N", x.year, model="lrg", recent_bool=True), 3), axis=1)
+#   
+#   # game_info['exp_win_away_nn'] = game_info.apply(lambda x: round(predict_game(x.away_team, x.home_team,"A", x.year, model="ensemble"), 3), axis=1)
+#   # game_info['exp_win_home_nn'] = game_info.apply(lambda x: round(predict_game(x.home_team, x.away_team,"H", x.year, model="ensemble"), 3), axis=1)
+# 
+#   game_info['away_odds_ml'] = game_info['away_odds_ml'].apply(lambda x: pd.to_numeric(x, downcast='signed')).reset_index( drop=True)
+#   game_info['home_odds_ml'] = game_info['home_odds_ml'].apply(lambda x: pd.to_numeric(x, downcast='signed')).reset_index( drop=True)
+#   
+#       
+#   game_info['exp_value_away'] =game_info.apply(lambda x: round(expected_value(x.away_team, x.away_odds_ml, x.exp_win_away), 4), axis=1)
+#   game_info['exp_value_home'] =game_info.apply(lambda x: round(expected_value(x.home_team, x.home_odds_ml, x.exp_win_home), 4), axis=1)
+#   game_info['exp_value_away_recent'] =game_info.apply(lambda x: round(expected_value(x.away_team, x.away_odds_ml, x.exp_win_away_recent), 4), axis=1)
+#   game_info['exp_value_home_recent'] =game_info.apply(lambda x: round(expected_value(x.home_team, x.home_odds_ml, x.exp_win_home_recent), 4), axis=1)
+# 
+# def predict_game(team1, team2, team1_home, year,model = "lrg", recent_bool = False):
+#     model_lrg = pickle.load(open("model", 'rb'))
+#     # model_nn = keras.models.load_model("./model_nn.h5")
+#     
+#     # model_xgb = pickle.load(open("model_xg", 'rb'))
+#     
+#     df_team_data = pd.read_csv("team_data.csv")
+#     df_team1 = df_team_data[(df_team_data['year'] == year) & (df_team_data['Team'] == team1)]
+#     if(team2 != "avg"):
+#         df_team2 = df_team_data[(df_team_data['year'] == year) & (df_team_data['Team'] == team2)]
+#     else:
+#         df_team2 = pd.read_csv("avg_team_22.csv")
+# 
+#     if(len(df_team1) == 0):
+#         print("Team 1 does not exist")
+#         return 0
+#     if(len(df_team2) == 0):
+#         print("Team 2 does not exist")
+#         return 0
+#     
+#     df_game = create_game_df(df_team1, df_team2,team1_home)
+#     prediction = model_lrg.predict_proba(df_game)[:,1]
+# 
+#     if(model == 'lrg'):
+#         prediction = model_lrg.predict_proba(df_game)[:,1]
+#     # elif(model == 'nn'):
+#         # df_game.drop(['exp_def_PTS', 'exp_off_PTS'], axis =1, inplace=True)
+#         # prediction = model_nn.predict_proba(df_game)[:,0]
+#     # elif(model == 'ensemble'):
+#         # prediction_xgb = model_xgb.predict_proba(df_game)[:,1]
+#         # df_game.drop(['exp_def_PTS', 'exp_off_PTS'], axis =1, inplace=True)
+#         # prediction = .5 * prediction_xgb + .5 * model_nn.predict_proba(df_game)[:,0]
+#     else:
+#         return "Invalid model selection."
+#         
+#     #TEMP FIX
+#     # if(recent_bool == True):
+#         
+#         # df_team_data = pd.read_csv("team_data_recent.csv")
+#         # df_team1 = df_team_data[(df_team_data['year'] == year) & (df_team_data['Team'] == team1)]
+#         # df_team2 = df_team_data[(df_team_data['year'] == year) & (df_team_data['Team'] == team2)]
+#         # df_game = create_game_df(df_team1, df_team2,team1_home)
+#         # prediction = (model_lrg.predict_proba(df_game)[:,1] * .5) + (.5 * prediction)
+#        
+#         
+#        
+#     
+#     return prediction[0]
+#     
